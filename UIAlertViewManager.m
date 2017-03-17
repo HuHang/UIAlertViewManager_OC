@@ -13,11 +13,13 @@
 + (void)alertWithTitle:(NSString *)title
                message:(NSString *)message
       withCancelButton:(BOOL)withCancelButton
-  textFieldPlaceholders:(NSArray *)textFieldPlaceholders
+ textFieldPlaceholders:(NSArray *)textFieldPlaceholders
           actionTitles:(NSArray *)actionTitles
       textFieldHandler:(textFieldHandler)textFieldHandler
-         actionHandler:(actionHandler)actionHandler{
+         actionHandler:(alertActionHandler)actionHandler{
     UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    NSMutableArray *textFieldStringArray = [[NSMutableArray alloc]init];
+    
     if ([textFieldPlaceholders count] > 0) {
         for (int i = 0; i < [textFieldPlaceholders count]; i++) {
             [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -29,7 +31,10 @@
     if ([actionTitles count] > 0) {
         for (NSUInteger i = 0; i < [actionTitles count]; i++) {
             UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@",actionTitles[i]] style:UIAlertActionStyleDefault handler:^(UIAlertAction * action)  {
-                actionHandler(action, i);
+                for (UITextField *item in alertViewController.textFields) {
+                    [textFieldStringArray addObject:item.text];
+                }
+                actionHandler(action, i, textFieldStringArray);
             }];
             [alertViewController addAction:action];
         }

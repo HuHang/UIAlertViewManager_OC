@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^alertActionHandler)(UIAlertAction *action, NSUInteger index, NSArray *textFields);
 typedef void(^actionHandler)(UIAlertAction *action, NSUInteger index);
 typedef void(^textFieldHandler)(UITextField *textField, NSUInteger index);
 
@@ -20,7 +21,7 @@ typedef void(^textFieldHandler)(UITextField *textField, NSUInteger index);
  textFieldPlaceholders:(NSArray *)textFieldPlaceholders
           actionTitles:(NSArray *)actionTitles
       textFieldHandler:(textFieldHandler)textFieldHandler
-         actionHandler:(actionHandler)actionHandler;
+         actionHandler:(alertActionHandler)actionHandler;
 
 
 + (void)actionSheettWithTitle:(NSString *)title
